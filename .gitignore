@@ -1,0 +1,19 @@
+/.idea
+
+# sbt specific
+.cache/
+.history/
+.lib/
+dist/*
+target
+
+# Scala-IDE specific
+/.idea/**/*.*
+!/.idea/inspectionProfiles/Project_Default.xml
+
+# Eclipse
+bin/
+.classpath
+.project
+.settings
+.cache-main
