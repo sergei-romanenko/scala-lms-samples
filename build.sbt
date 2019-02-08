@@ -1,5 +1,7 @@
 name := "scala-lms-samples"
 
+organization := "org.scala-lang.lms"
+
 version := "1.0"
 
 scalaVersion := "2.11.2"
@@ -18,7 +20,7 @@ libraryDependencies += "org.scalatest" % "scalatest_2.11" % "2.2.2"
 
 scalacOptions += "-Yvirtualize"
 
-scalacOptions += "-deprecation"
+//scalacOptions += "-deprecation"
 
 scalacOptions += "-feature"
 

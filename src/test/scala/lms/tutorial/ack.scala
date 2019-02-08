@@ -1,7 +1,6 @@
 package lms.tutorial
 
 import lms.lib._
-import scala.reflect.SourceContext
 
 trait Ackermann extends Dsl {
   def a(m: Int): Rep[Int => Int] = fun { n: Rep[Int] =>
