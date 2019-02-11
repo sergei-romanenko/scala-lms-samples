@@ -15,12 +15,12 @@ For further reference, see:
 package lms.tutorial
 
 import scala.lms.common._
-import scala.reflect.SourceContext
 
 import scala.language.implicitConversions
 import scala.language.reflectiveCalls
 
 import lms.lib._
+import DummySourceContext.dummySourceContext
 
 
 class ShonanTest extends TutorialFunSuite {

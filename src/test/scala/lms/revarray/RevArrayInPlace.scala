@@ -2,7 +2,7 @@ package lms.revarray
 
 import org.scalatest.FunSuite
 
-object RevArray0 {
+object RevArrayInPlace {
 
   def reverse(l: Int, a: Array[Int]): Unit = {
     require(l == a.length, "l must be equal to a.length")
@@ -18,27 +18,27 @@ object RevArray0 {
   }
 }
 
-class RevArray0Test extends FunSuite {
-  import RevArray0.reverse
+class RevArrayInPlaceTest extends FunSuite {
+  import RevArrayInPlace.reverse
 
   def testRev(a: Array[Int], after: Vector[Int]): Unit = {
     reverse(a.length, a)
     assert(a.toVector == after)
   }
 
-  test("RevArray0.reverse 0") {
+  test("RevArrayInPlace.reverse 0") {
     testRev(Array(), Vector())
   }
 
-  test("RevArray0.reverse 1") {
+  test("RevArrayInPlace.reverse 1") {
     testRev(Array(1), Vector(1))
   }
 
-  test("RevArray0.reverse 2") {
+  test("RevArrayInPlace.reverse 2") {
     testRev(Array(1,2), Vector(2,1))
   }
 
-  test("RevArray0.reverse 5") {
+  test("RevArrayInPlace.reverse 5") {
     testRev(Array(1,2,3,4,5), Vector(5,4,3,2,1))
   }
 }
