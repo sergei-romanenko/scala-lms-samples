@@ -3,18 +3,19 @@ package lms.btsort
 import lms.lib._
 import DummySourceContext.dummySourceContext
 
+// `>` is not supported in this version of LMS.
+// Thus the function`swap` can't be specialized correctly.
+
+/*
+
 trait BitonicSortStg extends DslExp with CollConv {
 
   def swap(up: Boolean, i: Int, j: Int, x: Array[Rep[Int]]): Unit = {
-    //val cmp: Rep[Boolean] = if (up) x(i) > x(j) else x(j) > x(i)
-/*
-    if (x(i) > x(j)) {
+    if (if (up) x(i) > x(j) else x(j) > x(i)) {
       val tmp = x(i)
       x(i) = x(j)
       x(j) = tmp
     }
-*/
-    xi = Math.min(x(i), x(j))
   }
 
   def merge(up: Boolean, p: Int, l: Int, x: Array[Rep[Int]]): Unit = {
@@ -76,3 +77,4 @@ class BitonicSortStgTest extends TutorialFunSuite {
   }
 
 }
+*/
