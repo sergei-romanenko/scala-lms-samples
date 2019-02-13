@@ -6,8 +6,6 @@ object RevArrayInPlace {
 
   def reverse(l: Int, a: Array[Int]): Unit = {
     require(l == a.length, "l must be equal to a.length")
-    if( l <= 1)
-      return
     val h = l / 2
     for (i <- 0 until h) {
       val j = l - 1 - i

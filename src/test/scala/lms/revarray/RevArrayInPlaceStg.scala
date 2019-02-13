@@ -14,8 +14,6 @@ import DummySourceContext.dummySourceContext
 trait RevArrayInPlaceStg extends Dsl {
 
   def reverse(l: Int, a: Rep[Array[Int]]): Unit = {
-    if (l <= 1)
-      return
     val h = l / 2
     for (i <- 0 until h: Range) {
       val j = l - 1 - i
