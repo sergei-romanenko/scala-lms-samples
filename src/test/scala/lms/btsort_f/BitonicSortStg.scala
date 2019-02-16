@@ -1,52 +1,42 @@
-package lms.btsort
+package lms.btsort_f
 
 import lms.lib._
 import DummySourceContext.dummySourceContext
 
-// This version doesn't work!
-// For some reason, `if (up) x(i) > x(j) else x(j) > x(i)`
-// is assumed to be always true!
-
 trait BitonicSortStg extends DslExp with CollConv {
 
-  def swap(up: Boolean, i: Int, j: Int, x: Array[Rep[Int]]): Unit = {
-    __ifThenElse(if (up) x(i) > x(j) else x(j) > x(i), {
-      val tmp = x(i)
-      x(i) = x(j)
-      x(j) = tmp
-    }, ())
-  }
-
-  def merge(up: Boolean, p: Int, l: Int, x: Array[Rep[Int]]): Unit = {
+  def merge(up: Boolean, x: Vector[Rep[Int]]): Vector[Rep[Int]] = {
     // Produces a sorted list, on condition that x is bitonic.
-    if (l <= 1)
-      return
+    val l = x.length
+    if (l == 1)
+      return x
     val h = l / 2
-    for (i <- 0 until h: Range) {
-      swap(up, p + i, (p + h) + i, x)
-    }
-    merge(up, p, h, x)
-    merge(up, p + h, h, x)
+    val (x1, x2) = x.splitAt(h)
+    val ok = Vector.tabulate(h)(i => if (up) x1(i) <= x2(i) else x2(i) <= x1(i))
+    val y1 = Vector.tabulate(h)(i => __ifThenElse(ok(i), x1(i), x2(i)))
+    val y2 = Vector.tabulate(h)(i => __ifThenElse(ok(i), x2(i), x1(i)))
+    merge(up, y1) ++ merge(up, y2)
   }
 
-  def sort(up: Boolean, p: Int, l: Int, x: Array[Rep[Int]]): Unit = {
+  def sort(up: Boolean, x: Vector[Rep[Int]]): Vector[Rep[Int]] = {
+    val l = x.length
+    require((l & (l - 1)) == 0, "x.length must be a power of 2")
     if (l <= 1)
-      return
+      return x
     val h = l / 2
-    sort(up = true, p, h, x)
-    sort(up = false, p + h, h, x)
-    merge(up, p, l, x)
+    val (x1, x2) = x.splitAt(h)
+    val y1 = sort(up = true, x1)
+    val y2 = sort(up = false, x2)
+    merge(up, y1 ++ y2)
   }
 
   def sort(l: Int, x: Rep[Array[Int]]): Rep[Array[Int]] = {
-    val y = ra2ar(l, x)
-    sort(up = true, 0, l, y)
-    ar2ra(y)
+    vr2ra(sort(up = true, ra2vr(l, x)))
   }
 }
 
 class BitonicSortStgTest extends TutorialFunSuite {
-  val under = "btsort"
+  val under = "btsort_f"
 
   def specialize(l: Int): DslDriver[Array[Int], Array[Int]] = {
     require((l & (l - 1)) == 0, "x.length must be a power of 2")
@@ -57,7 +47,6 @@ class BitonicSortStgTest extends TutorialFunSuite {
     }
   }
 
-  /*
   test("specialize sort to l=1") {
     val sort1 = specialize(1)
     check("-l1", sort1.code)
@@ -72,6 +61,4 @@ class BitonicSortStgTest extends TutorialFunSuite {
     val sort4 = specialize(4)
     check("-l4", sort4.code)
   }
-  */
-
 }

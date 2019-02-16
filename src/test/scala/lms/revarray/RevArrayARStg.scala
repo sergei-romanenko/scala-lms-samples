@@ -25,7 +25,7 @@ trait RevArrayARStg extends DslExp with CollConv {
   def reverse(l: Int, a: Rep[Array[Int]]): Rep[Array[Int]] = {
     val b = ra2ar(l, a)
     reverse(l, b)
-    ar2ra(l, b)
+    ar2ra(b)
   }
 }
 
